@@ -13,20 +13,19 @@
     </div>
   </div>
   <div class="nav clearfix">
-    <router-link to="/" class="v-nav">即将上映</router-link>
-    <router-link to="/comingSoon" class="v-nav">即将上映</router-link>
+    <a class="pull-left" href="/">正在热映</a>
+    <a class="pull-left" href="/#/comingSoon">即将上映</a>
   </div>
   <loading v-if="loading"></loading>
+  <h1 v-if='!loading' class="title">'{{val}}'的搜索结果, 共{{result.total}}条信息</h1>
   <ul class="movies" v-if="!loading">
-    <li v-for="movie in MovieList" @click="goDetail(movie.id)">
-      <div class="movie_img"><img v-bind:src="movie.images.large"></div>
+    <li v-for="movie in result.subjects" @click="goDetail(movie.id)">
+      <div><img v-bind:src="movie.images.large"></div>
       <div class="message">
-        <h2>{{movie.title|limitText}}</h2>
+        <h2>{{movie.title}}</h2>
         <star :score="movie.rating.stars"></star>
         <p>{{movie.rating.average}}分</p>
-        <p>导演：{{movie.directors[0].name}}</p>
-        <p>主演：<span v-for="actor in movie.casts">{{actor.name}} </span></p>
-        <!-- <p>主演：{{movie.casts[0].name}}，{{movie.casts[1].name}}</p> -->
+        <p>{{movie.year}}</p>
       </div>
     </li>
   </ul>
@@ -37,18 +36,38 @@
 import star from './star'
 import loading from './loading'
 export default {
-  name: 'MovieList',
+  name: 'result',
   data () {
     return {
-      loading:true,
-      MovieList:[{
-        rating:{
-
-        },
-        casts:[
-
-        ]
-      }]
+    loading:true,
+      val: '',
+      result: {
+        total: '',
+        subjects: [{
+          rating: {
+            max: '',
+            average: ''
+          },
+          genres: [],
+          title: '',
+          year: '',
+          images: {
+            small: '',
+            large: '',
+            medium: ''
+          },
+          directors: [{
+            name: ''
+          }],
+          casts: [{
+            name: '',
+            id: ''
+          }],
+          collect_count: '',
+          alt: '',
+          id: ''
+        }]
+      }
     }
   },
   components:{
@@ -56,17 +75,12 @@ export default {
     loading:loading
   },
   mounted(){
-    //this.$http.get("static/data.json")
-    this.$http.jsonp("https://api.douban.com/v2/movie/in_theaters?apikey=0b2bdeda43b5688921839c8ecb20399b")
+    this.val = this.$route.query.name
+    this.$http.jsonp("https://api.douban.com/v2/movie/search?q="+this.val)
     .then(function(response){
-      this.MovieList=response.body.subjects
+      this.result=response.body
       this.loading=false
     })
-  },
-  filters: {
-    limitText: function (value) {
-      return value.substr(0,10)
-    }
   },
   methods: {
     goDetail: function (str) {
@@ -81,6 +95,14 @@ export default {
 <style scoped>
   .load{
     margin-top: 50%;
+  }
+  .title{
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: bold;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #f2fbfb;
   }
   .header{
     padding: 10px 20px;
@@ -116,8 +138,8 @@ export default {
   .nav{
     background-color: #df2d2d;
   }
-  .nav .v-nav{
-    float: left;
+  .nav a{
+    display: block;
     text-align: center;
     width: 50%;
     height: 35px;
@@ -136,13 +158,17 @@ export default {
     width: 65px;
   }
   .movies .message{
-    padding-left: 15px;
+    padding-left: 20px;
   }
   .movies .message h2{
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 10px;
     line-height: 26px;
+    width: 245px;
+    height: 26px;
+    overflow:hidden;
+    text-overflow: ellipsis;
   }
   .movies .message p{
     font-size: 14px;

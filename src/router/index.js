@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import MovieList from '@/components/MovieList'
+import comingSoon from '@/components/comingSoon'
 import MovieDetail from '@/components/MovieDetail'
 import smallcomment from '@/components/smallcomment'
-import allcomment from '@/components/allcomment'
+import actors from '@/components/actors'
+import search from '@/components/search'
+import searchResult from '@/components/searchResult'
 
 Vue.use(Router)
 
@@ -25,9 +28,24 @@ export default new Router({
       component: smallcomment
     },
     {
-      path: '/allComment/:id',
-      name: 'allComment',
-      component: allcomment
+      path: '/actors/:id',
+      name: 'actors',
+      component: actors
+    },
+    {
+      path: '/comingSoon',
+      name: 'comingSoon',
+      component: comingSoon
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: search
+    },
+    {
+      path: '/searchResult',
+      name: 'searchResult',
+      component: searchResult
     }
   ]
 })
