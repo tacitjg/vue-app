@@ -232,6 +232,7 @@
 	}
 	.comments .author{
 		padding-bottom: 5px;
+		margin-bottom: 10px;
 		border-bottom: 1px solid #d6d3d3;
 	}
 	.comments .author img{

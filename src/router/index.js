@@ -4,6 +4,7 @@ import MovieList from '@/components/MovieList'
 import MovieDetail from '@/components/MovieDetail'
 import smallcomment from '@/components/smallcomment'
 import allcomment from '@/components/allcomment'
+import comingSoon from '@/components/comingSoon'
 
 Vue.use(Router)
 
@@ -13,6 +14,11 @@ export default new Router({
       path: '/',
       name: 'MovieList',
       component: MovieList
+    },
+    {
+      path: '/ComingSoon',
+      name: 'comingSoon',
+      component: comingSoon
     },
     {
       path: '/movie/:id',

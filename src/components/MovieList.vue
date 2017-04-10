@@ -13,8 +13,8 @@
     </div>
   </div>
   <div class="nav clearfix">
-    <a class="pull-left" href="">正在热映</a>
-    <a class="pull-left" href="">即将上映</a>
+    <a class="pull-left" href="/">正在热映</a>
+    <a class="pull-left" href="./ComingSoon">即将上映</a>
   </div>
   <ul class="movies">
     <li v-for="movie in MovieList" @click="goDetail(movie.id)">
@@ -22,13 +22,13 @@
       <div class="message">
         <h2>{{movie.title|limitText}}</h2>
         <star :score="movie.rating.stars"></star>
-        <!-- <div>
-          <span class="star star-on"></span><span class="star star-on"></span><span class="star star-on"></span><span class="star star-off"></span><span class="star star-off"></span>{{movie.rating.stars}}{{movie.rating.stars|countStar}}
-        </div> -->
         <p>{{movie.rating.average}}分</p>
         <p>导演：{{movie.directors[0].name}}</p>
-        <p>主演：<span v-for="actor in movie.casts">{{actor.name}},</span></p>
-        <!-- <p>主演：{{movie.casts[0].name}}，{{movie.casts[1].name}}</p> -->
+        <!-- <p>主演：<span v-for="actor in movie.casts">{{actor.name}},</span></p> -->
+        <p>主演：<span>{{movie.casts[0].name}}</span><span v-if="movie.casts[1]">, {{ movie.casts[1].name }}</span></span><span v-if="movie.casts[2]">, {{ movie.casts[2].name }}</span>
+        </p>
+
+                
       </div>
     </li>
   </ul>
@@ -57,18 +57,6 @@ export default {
     limitText: function (value) {
       return value.substr(0,10)
     }
-    /*,
-    countStar:function(value){
-      var s = '';
-      var int_star = parseInt(value/10);
-      var half_star = (parseInt(value)/10 - int_star == 0)?false:true;
-      for (var i = 0; i < int_star; i++) {
-        s += "*"
-      }
-      if (half_star) {
-        s += '-'
-      }
-    }*/
   },
   methods: {
     goDetail: function (str) {
@@ -135,7 +123,7 @@ export default {
     width: 65px;
   }
   .movies .message{
-    padding-left: 20px;
+    padding-left: 15px;
   }
   .movies .message h2{
     font-size: 20px;
@@ -147,7 +135,9 @@ export default {
     font-size: 14px;
     line-height: 20px;
     color: #666;
+    text-overflow: ellipsis;
     overflow: hidden;
+    height: 20px;
     width: 245px;
   }
   .movies .message p span{
