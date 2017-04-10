@@ -54,8 +54,7 @@
 		},
 		methods: {
 			goback: function (str) {
-				const path = '/movie/' + str
-				this.$router.push({path: path})
+				window.history.go(-1)
 			}
 		}
 	}

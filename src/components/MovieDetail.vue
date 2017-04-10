@@ -112,7 +112,7 @@
 		},
 		methods: {
 			goback: function () {
-				this.$router.push('/')
+				window.history.go(-1)
 			},
 			smallComment:function(str){
 				const path = '/smallComment/' + str
@@ -130,7 +130,7 @@
 		margin-top: 30%;
 	}
 	.header_title{
-		background-color: #e54847;
+		background-color: #272727;
 		height: 50px;
 		position: relative;
 	}

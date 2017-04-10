@@ -2,30 +2,27 @@
 <div>
   <div class="header">
     <div>
-      <img src="../assets/logo.png">
+      <img src="../assets/mao.png">
     </div>
     <div>
-      <h4>狗眼电影</h4>
-      <p>查影讯，上狗眼电影就够了！</p>
+      <h4>鸮眼电影</h4>
+      <p>查影讯，上鸮眼电影就够了！</p>
     </div>
     <div class="header_input pull-right">
-      <input type="text" placeholder="请输入电影名">
+      <a href="/#/search"><input type="text" placeholder="请输入电影名"></a>
     </div>
   </div>
   <div class="nav clearfix">
-    <router-link to="/" class="v-nav">即将上映</router-link>
-    <router-link to="/comingSoon" class="v-nav">即将上映</router-link>
+    <router-link to="/" class="v-nav">正在上映</router-link>
+    <router-link to="/comingSoon" class="v-nav nav_coming">即将上映</router-link>
   </div>
   <loading v-if="loading"></loading>
   <ul class="movies" v-if="!loading">
     <li v-for="movie in MovieList" @click="goDetail(movie.id)">
-      <div><img v-bind:src="movie.images.large"></div>
+      <div class="movie_img"><img v-bind:src="movie.images.large"></div>
       <div class="message">
         <h2>{{movie.title|limitText}}</h2>
         <star :score="movie.rating.stars"></star>
-        <!-- <div>
-          <span class="star star-on"></span><span class="star star-on"></span><span class="star star-on"></span><span class="star star-off"></span><span class="star star-off"></span>{{movie.rating.stars}}{{movie.rating.stars|countStar}}
-        </div> -->
         <p>{{movie.rating.average}}分</p>
         <p>导演：{{movie.directors[0].name}}</p>
         <p>主演：<span v-for="actor in movie.casts">{{actor.name}} </span></p>
@@ -88,6 +85,7 @@ export default {
     width: 42px;
     height: 42px;
     line-height: 42px;
+    border-radius: 50%;
   }
   .header h4{
     font-size: 17px;
@@ -101,14 +99,17 @@ export default {
     line-height: 16px;
   }
   .header input{
+    position: absolute;
+    right: 15px;
+    top: 15px;
     width: 100px;
-    height: 40px;
+    height: 30px;
     border-style: none;
     border-radius: 15px;
     padding-left: 10px;
   }
   .nav{
-    background-color: #df2d2d;
+    background-color: #789;
   }
   .nav .v-nav{
     float: left;
@@ -119,18 +120,27 @@ export default {
     font-size: 20px;
     color: #f9fafc;
   }
+  .nav .nav_coming{
+    background-color: #369;
+  }
   .movies li{
-    padding: 10px 20px ;
+    overflow: hidden;
     border-bottom: 1px solid #d6d6d6;
   }
   .movies li div{
     display: inline-block;
+    float: left;
   }
-  .movies li img{
-    width: 65px;
+  .movies .movie_img{
+    width: 20%;
+    padding: 10px 5%;
+  }
+  .movies .movie_img img{
+    width: 100%;  
   }
   .movies .message{
-    padding-left: 20px;
+    width: 65%;
+    padding: 10px 0;
   }
   .movies .message h2{
     font-size: 20px;
@@ -143,7 +153,6 @@ export default {
     line-height: 20px;
     color: #666;
     overflow: hidden;
-    width: 245px;
   }
   .movies .message p span{
     font-size: 14px;
