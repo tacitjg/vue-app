@@ -13,22 +13,23 @@
     </div>
   </div>
   <div class="nav clearfix">
-    <a class="pull-left" href="/">正在热映</a>
-    <a class="pull-left" href="/ComingSoon">即将上映</a>
+    <router-link to="/" class="v-nav">即将上映</router-link>
+    <router-link to="/comingSoon" class="v-nav">即将上映</router-link>
   </div>
-  <ul class="movies">
+  <loading v-if="loading"></loading>
+  <ul class="movies" v-if="!loading">
     <li v-for="movie in MovieList" @click="goDetail(movie.id)">
       <div><img v-bind:src="movie.images.large"></div>
       <div class="message">
         <h2>{{movie.title|limitText}}</h2>
         <star :score="movie.rating.stars"></star>
+        <!-- <div>
+          <span class="star star-on"></span><span class="star star-on"></span><span class="star star-on"></span><span class="star star-off"></span><span class="star star-off"></span>{{movie.rating.stars}}{{movie.rating.stars|countStar}}
+        </div> -->
         <p>{{movie.rating.average}}分</p>
         <p>导演：{{movie.directors[0].name}}</p>
-        <!-- <p>主演：<span v-for="actor in movie.casts">{{actor.name}},</span></p> -->
-        <p>主演：<span>{{movie.casts[0].name}}</span><span v-if="movie.casts[1]">, {{ movie.casts[1].name }}</span></span><span v-if="movie.casts[2]">, {{ movie.casts[2].name }}</span>
-        </p>
-
-                
+        <p>主演：<span v-for="actor in movie.casts">{{actor.name}} </span></p>
+        <!-- <p>主演：{{movie.casts[0].name}}，{{movie.casts[1].name}}</p> -->
       </div>
     </li>
   </ul>
@@ -37,19 +38,23 @@
 
 <script>
 import star from './star'
+import loading from './loading'
 export default {
-  name: 'MovieList',
+  name: 'comingSoon',
   data () {
     return {
+      loading:true,
       MovieList:[]
     }
   },
   components:{
-    star:star
+    star:star,
+    loading:loading
   },
   mounted(){
-    this.$http.jsonp("https://api.douban.com/v2/movie/coming_soon").then(function(response){
+    this.$http.jsonp("https://api.douban.com/v2/movie/coming_soon?apikey=0b2bdeda43b5688921839c8ecb20399b").then(function(response){
       this.MovieList=response.body.subjects
+      this.loading=false
     })
   },
   filters: {
@@ -68,6 +73,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .load{
+    margin-top: 50%;
+  }
   .header{
     padding: 10px 20px;
     background-color: #e5e9f2;
@@ -102,8 +110,8 @@ export default {
   .nav{
     background-color: #df2d2d;
   }
-  .nav a{
-    display: block;
+  .nav .v-nav{
+    float: left;
     text-align: center;
     width: 50%;
     height: 35px;
@@ -122,7 +130,7 @@ export default {
     width: 65px;
   }
   .movies .message{
-    padding-left: 15px;
+    padding-left: 20px;
   }
   .movies .message h2{
     font-size: 20px;
@@ -134,9 +142,7 @@ export default {
     font-size: 14px;
     line-height: 20px;
     color: #666;
-    text-overflow: ellipsis;
     overflow: hidden;
-    height: 20px;
     width: 245px;
   }
   .movies .message p span{

@@ -1,55 +1,58 @@
 <template>
 <div>
-	<div class="header_title">
-		<div class="msg_back" @click="goback()"><div></div></div>
-		<div class="msg_title">{{detail.title}}</div>
-	</div>
-	<div class="msg_movie">
-		<div class="msg_img">
-			<img :src="detail.images.medium">
+	<loading v-if="loading"></loading>
+	<div v-if="!loading">
+		<div class="header_title">
+			<div class="msg_back" @click="goback()"><div></div></div>
+			<div class="msg_title">{{detail.title}}</div>
 		</div>
-		<div class="msg_info">
-			<h3>{{detail.title}}</h3>
-			<star :score="detail.rating.stars"></star>
-			<p>{{detail.rating.average}}({{detail.comments_count}}人评分)</p>
-			<p>{{detail.year}}年</p>
-			<p><span v-for="tag in detail.genres">{{tag}},</span></p>
-			<p>{{detail.countries[0]}}</p>
-			<p>{{detail.mainland_pubdate}}(中国大陆)</p>
-		</div>
-	</div>
-	<div class="content">
-		<div class="msg_count">
-			<span>{{detail.wish_count}}人想看</span>
-			<span>{{detail.reviews_count}}人看过</span>
-		</div>
-		<div class="msg_summary">{{detail.summary}}</div>
-		<div class="msg_actor">
-			<h3>演职人员</h3>
-			<ul>
-				<li v-for="actor in detail.casts">
-					<div>
-						<img :src="actor.avatars.small">
-					</div>
-					<span>{{actor.name|limitText}}</span>
-				</li>
-			</ul>
-		</div>
-		<div class="comments">
-			<h3>热门短评</h3>
-			<div v-for="talk in detail.popular_comments">
-				<div>
-					<star :score="talk.rating.value*10"></star>
-					<span class="star_date">{{talk.created_at}}</span>
-				</div>
-				<div class="talk">{{talk.content}}</div>
-				<div class="author">
-					<img :src="talk.author.avatar">
-					<span>{{talk.author.name}}</span>
-				</div>
+		<div class="msg_movie">
+			<div class="msg_img">
+				<img :src="detail.images.medium">
 			</div>
-			<p class="msg_all" @click="smallComment(detail.id)">查看全部短评</p>
-			<p class="msg_all" @click="allComment(detail.id)">查看全部影评</p>
+			<div class="msg_info">
+				<h3>{{detail.title}}</h3>
+				<star :score="detail.rating.stars"></star>
+				<p>{{detail.rating.average}}({{detail.comments_count}}人评分)</p>
+				<p>{{detail.year}}年</p>
+				<p><span v-for="tag in detail.genres">{{tag}},</span></p>
+				<p>{{detail.countries[0]}}</p>
+				<p>{{detail.mainland_pubdate}}(中国大陆)</p>
+			</div>
+		</div>
+		<div class="content">
+			<div class="msg_count">
+				<span>{{detail.wish_count}}人想看</span>
+				<span>{{detail.reviews_count}}人看过</span>
+			</div>
+			<div class="msg_summary">{{detail.summary}}</div>
+			<div class="msg_actor">
+				<h3>演职人员</h3>
+				<ul>
+					<li v-for="actor in detail.casts" @click="actors(actor.id)">
+						<div>
+							<img :src="actor.avatars.small">
+						</div>
+						<span>{{actor.name|limitText}}</span>
+					</li>
+				</ul>
+			</div>
+			<div class="comments">
+				<h3>热门短评</h3>
+				<div v-for="talk in detail.popular_comments">
+					<div class="star_time">
+						<star :score="talk.rating.value*10"></star>
+						<span class="star_date">{{talk.created_at}}</span>
+					</div>
+					<div class="talk">{{talk.content}}</div>
+					<div class="author">
+						<img :src="talk.author.avatar">
+						<span>{{talk.author.name}}</span>
+					</div>
+				</div>
+				<p class="msg_all" @click="smallComment(detail.id)">查看全部短评</p>
+				<p class="msg_all">查看全部影评</p>
+			</div>
 		</div>
 	</div>
 </div>
@@ -57,10 +60,12 @@
 
 <script>
 	import star from './star'
+	import loading from './loading'
 	export default{
 		name:'MovieDetail',
 		data () {
 			return {
+				loading:true,
 				detail:{
 					images:{
 					},
@@ -85,12 +90,14 @@
 			}
 		},
 		components:{
-			star:star
+			star:star,
+			loading:loading
 		},
 		mounted () {
 			var id = this.$route.params.id;
 			this.$http.jsonp("https://api.douban.com/v2/movie/subject/"+id+"?apikey=0b2bdeda43b5688921839c8ecb20399b").then(function(response){
 				this.detail=response.body
+				this.loading=false
 				console.log(response.body)
 			})
 		},
@@ -111,14 +118,17 @@
 				const path = '/smallComment/' + str
 				this.$router.push({path: path})
 			},
-			allComment:function(str){
-				const path = '/allComment/' + str
+			actors:function(str){
+				const path = '/actors/' + str
 				this.$router.push({path: path})
 			}
 		}
 	}
 </script>
 <style scoped>
+	.load{
+		margin-top: 30%;
+	}
 	.header_title{
 		background-color: #e54847;
 		height: 50px;
@@ -222,6 +232,9 @@
 	}
 	.comments .star{
 		display: inline-block;
+	}
+	.comments .star_time{
+		margin-top: 6px;
 	}
 	.comments .star_date{
 		font-size: 12px;
