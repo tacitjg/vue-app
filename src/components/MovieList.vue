@@ -6,7 +6,7 @@
     </div>
     <div>
       <h4>鸮眼电影</h4>
-      <p>查影讯，上鸮眼电影就够了！</p>
+      <p>查影讯，上鸮眼电影！</p>
     </div>
     <div class="header_input">
       <a href="/#/search"><input type="text" placeholder="请输入电影名"></a>
@@ -136,24 +136,31 @@ export default {
     background-color: #789;
   }
   .movies li{
-    overflow: hidden;
+    display: flex;
     background-color: #333;
     border-bottom: 1px solid #d6d6d6;
-  }
-  .movies li div{
-    display: inline-block;
-    float: left;
+    align-items:center;
   }
   .movies .movie_img{
-    width: 20%;
-    padding: 10px 5%;
+    flex: 2;
+    padding: 10px 15px;
   }
   .movies .movie_img img{
-    width: 100%;  
+    width: 100%;
   }
   .movies .message{
-    width: 65%;
+    flex: 6;
     padding: 10px 0;
+    padding-right: 15px;
+  }
+  @media screen and (min-width: 600px){
+    .movies{
+      display: flex;
+      flex-wrap: wrap
+    }
+    .movies li{
+      width: 50%;
+    }
   }
   .movies .message h2{
     color: #fff;
