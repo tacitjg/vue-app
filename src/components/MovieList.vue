@@ -144,6 +144,7 @@ export default {
   .movies .movie_img{
     flex: 2;
     padding: 10px 15px;
+    max-width: 85px;
   }
   .movies .movie_img img{
     width: 100%;
@@ -153,13 +154,43 @@ export default {
     padding: 10px 0;
     padding-right: 15px;
   }
-  @media screen and (min-width: 600px){
+  @media screen and (min-width: 500px){
     .movies{
-      display: flex;
-      flex-wrap: wrap
+      overflow: hidden;
+      background-color: #333;
     }
     .movies li{
+      display: block;
+      border: none;
+    }
+    .movies li:first-child{
+      padding-top: 20px;
+    }
+    .movies .movie_img{
+      display: inline-block;
+      width: 80px;
+    }
+    .movies .message{
+      display: inline-block;
+    }
+  }
+  @media screen and (min-width: 800px){
+    .movies li:nth-child(2){
+      padding-top: 20px;
+    }
+    .movies li{
+      float: left;
+      display: inline-block;
       width: 50%;
+      height: 140px;
+    }
+    .movies .message{
+      width: 250px;
+    }
+  }
+  @media screen and (min-width: 1000px){
+    .movies .message{
+      width: 350px;
     }
   }
   .movies .message h2{
@@ -174,6 +205,8 @@ export default {
     line-height: 20px;
     color: #fff;
     overflow: hidden;
+    height: 20px;
+    text-overflow: ellipsis;
   }
   .movies .message p span{
     font-size: 14px;
