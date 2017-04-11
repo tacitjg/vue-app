@@ -126,6 +126,7 @@ export default {
   .movies li{
     overflow: hidden;
     border-bottom: 1px solid #d6d6d6;
+    background-color: #eee ;
   }
   .movies li div{
     display: inline-block;

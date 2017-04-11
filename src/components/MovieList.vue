@@ -121,6 +121,7 @@ export default {
   }
   .nav{
     background-color: #369;
+    border-bottom: 1px solid #666 ;
   }
   .nav .v-nav{
     float: left;
@@ -136,6 +137,7 @@ export default {
   }
   .movies li{
     overflow: hidden;
+    background-color: #333;
     border-bottom: 1px solid #d6d6d6;
   }
   .movies li div{
@@ -154,6 +156,7 @@ export default {
     padding: 10px 0;
   }
   .movies .message h2{
+    color: #fff;
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 10px;
@@ -162,7 +165,7 @@ export default {
   .movies .message p{
     font-size: 14px;
     line-height: 20px;
-    color: #666;
+    color: #fff;
     overflow: hidden;
   }
   .movies .message p span{

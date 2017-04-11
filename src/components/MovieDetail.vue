@@ -261,5 +261,6 @@
 		text-align: center;
 		color: #e54847;
 		line-height: 30px;
+		padding-bottom: 5px;
 	}
 </style>

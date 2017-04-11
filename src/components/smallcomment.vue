@@ -64,7 +64,7 @@
 		margin-top: 30%;
 	}
 	.header_title{
-		background-color: #e54847;
+		background-color: #008888;
 		height: 50px;
 		position: relative;
 	}
